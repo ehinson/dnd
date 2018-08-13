@@ -16,6 +16,16 @@ const actions = createActions({
             SET: race => race,
         },
 
+        HEALTH: {
+            SET: health => health,
+            HEAL: {
+                SET: heal => heal,
+            },
+            HARM: {
+                SET: harm => harm,
+            },
+        },
+
         PROFICIENCIES: {
             SET: prof => prof
         },

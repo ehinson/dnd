@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as s from '../selectors/player';
+import { roll } from '../../utils/playerUtils'
 
 const skills = {
     strength: {
@@ -83,11 +84,20 @@ export default handleActions({
         MODIFIER: {
             SET: (state, { payload: modifier }) => state.set('modifier', fromJS(modifier)),
         },
+        RACE: {
+            SET: (state, { payload: race }) => state.set('race', fromJS(race)),
+        },
         CATEGORY: {
             SET: (state, { payload: category }) => state.set('category', fromJS(category)),
         },
-        RACE: {
-            SET: (state, { payload: race }) => state.set('race', fromJS(race)),
+        HEALTH: {
+            SET: (state, { payload: category }) => state.set('health', fromJS(calculateHealth(category, s.getPlayerAbilityModifier(state, 'constitution'), s.getPlayerLevel(state)))),
+            HEAL: {
+                SET: (state, { payload: heal }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) + heal)),
+            },
+            HARM: {
+                SET: (state, { payload: harm }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) - harm)),
+            }
         },
         PROFICIENCIES: {
             SET: (state, { payload: prof }) => state.merge(fromJS(prof)),
@@ -128,6 +138,9 @@ function setAbilityModifier(statObject, state){
 }
 
 function calculateModifier(stats, ability, race){
+    console.log(race)
+    console.log(stats)
+    console.log(ability)
     const baseModifier = Math.floor(Number(stats[ability].score)/2) - 5;
     switch (true){
         case race === 'human':
@@ -138,6 +151,38 @@ function calculateModifier(stats, ability, race){
             return baseModifier + 2;
         default:
             return baseModifier;
+    }
+}
+
+function calculateHealth(category, modifier, level){
+    console.log(category);
+    console.log(modifier);
+
+    const sidesOfDice = getHitDice(category.name)
+    const baseHealth = sidesOfDice + modifier
+
+    if (level === 1){
+        return {
+            currentHealth: baseHealth,
+            maxHealth: baseHealth,
+        }
+    }
+    const health = baseHealth + ((level - 1) * (roll(sidesOfDice) + modifier))
+
+    return {
+        currentHealth: health,
+        maxHealth: health,
+    }
+}
+
+function getHitDice(category){
+    switch(true){
+        case category === 'fighter' :
+            return 10;
+        case category === 'wizard':
+            return 6;
+        default:
+            return 8;
     }
 }
 

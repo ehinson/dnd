@@ -1,19 +1,15 @@
-import { createSelector } from 'reselect';
-
-export const getPlayer = state => state.get('player') || state;
+export const getPlayer = state => state.player || state;
 
 export const getPlayerAbility = (state, ability) => {
     return getPlayer(state).getIn([ability, 'score'])
 };
 
-export const getPlayerAbilityModifier = createSelector(
-    getPlayerAbility,
-    (strength) => getAbilityModifier(strength)
-);
+export const getPlayerLevel = state => {
+    return getPlayer(state).getIn(['level', 'currentLevel'])
+}
 
-function getAbilityModifier(ability){
-    const score = Math.floor(Number(ability)/2) - 5
-    return score;
+export const getPlayerAbilityModifier = (state, ability) => {
+    return getMainStats(state).getIn([ability, 'modifier'])
 }
 
 export const getMainStats = (state) => {

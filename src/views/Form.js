@@ -1,20 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Field, reduxForm, change } from 'redux-form'
+import { Field, reduxForm, change } from 'redux-form';
 
-import playerActions from '../state/actions/player'
-import * as s from '../state/selectors/player';
+import playerActions from '../state/actions/player';
+import { roll } from '../utils/playerUtils';
 
 
 class Form extends React.Component {
-  roll = (sides) => {
-    return Math.floor(Math.random() * sides) + 1;
-  }
   generateAbilityScore = (fieldName, sides, numberOfDice) => {
     let rollArray = [];
     for(var i = 0; i < numberOfDice; i++){
-      let diceRoll = this.roll(sides)
+      let diceRoll = roll(sides)
       rollArray.push(diceRoll)
     }
     rollArray.sort((a, b) => {
@@ -61,6 +57,13 @@ class Form extends React.Component {
       },
       race: {
         name: values.race,
+      },
+      health: {
+        currentHealth: 0,
+        maxHealth: 0,
+      },
+      category: {
+        name: values.category,
       }
     }
     this.props.createPlayer(newPlayer)
@@ -101,16 +104,26 @@ class Form extends React.Component {
           <input type="button" value="Roll" onClick={()=> this.generateAbilityScore('charisma', 6, 4)}/>
         </div>
         <div>
-        <label>Race</label>
-        <div>
-          <Field name="race" component="select">
-            <option />
-            <option value="human">Human</option>
-            <option value="Elf">Elf</option>
-            <option value="Dwarf">Dwarf</option>
-          </Field>
+          <label>Race</label>
+          <div>
+            <Field name="race" component="select">
+              <option />
+              <option value="human">Human</option>
+              <option value="elf">Elf</option>
+              <option value="dwarf">Dwarf</option>
+            </Field>
+          </div>
         </div>
-      </div>
+        <div>
+          <label>Category</label>
+          <div>
+            <Field name="category" component="select">
+              <option />
+              <option value="fighter">Fighter</option>
+              <option value="wizard">Wizard</option>
+            </Field>
+          </div>
+        </div>
         <input type="submit" value="Submit" disabled={submitting}/>
       </form>
 
@@ -128,7 +141,7 @@ const mapStateToProps = state => {
       intelligence: 10,
       wisdom: 10,
       charisma: 10
-    }
+    },
   }
 }
 
@@ -137,6 +150,8 @@ const mapDispatchToProps = (dispatch) => {
     createPlayer: player => {
       dispatch(playerActions.mainStats.set(player.mainStats))
       dispatch(playerActions.race.set(player.race))
+      dispatch(playerActions.category.set(player.category))
+      dispatch(playerActions.health.set(player.category))
     },
     changeFieldValue: function(field, value) {
       dispatch(change('player', field, value))
@@ -148,7 +163,6 @@ const PlayerForm = connect(
   mapStateToProps,
   mapDispatchToProps
 )(reduxForm({
-  // a unique name for the form
   form: 'player'
 })(Form))
 
