@@ -148,8 +148,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createPlayer: player => {
-      dispatch(playerActions.mainStats.set(player.mainStats))
+      // create thunks so it's thenable?
       dispatch(playerActions.race.set(player.race))
+      dispatch(playerActions.mainStats.set(player.mainStats))
       dispatch(playerActions.category.set(player.category))
       dispatch(playerActions.health.set(player.category))
     },
