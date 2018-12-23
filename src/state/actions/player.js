@@ -30,6 +30,10 @@ const actions = createActions({
             SET: prof => prof
         },
 
+        INITIATIVE: {
+            SET: init => init,
+        },
+
         MAIN_STATS: {
             SET: stats => stats,
         }

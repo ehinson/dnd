@@ -99,6 +99,9 @@ export default handleActions({
                 SET: (state, { payload: harm }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) - harm)),
             }
         },
+        INITIATIVE: {
+            SET: (state) => state.set('initiative', s.getInitiative(state)),
+        },
         PROFICIENCIES: {
             SET: (state, { payload: prof }) => state.merge(fromJS(prof)),
         },
@@ -108,12 +111,12 @@ export default handleActions({
     },
 }, defaultState)
 
-function setAbilityModifier(statObject, state){
+function setAbilityModifier(statMap, state){
     const newStatObject = {};
 
-    Object.keys(statObject).forEach(ability => {
+    statMap.mapEntries(([stat,ability]) => {
         const race = s.getRace(state);
-        const modifier = calculateModifier(statObject, ability, race)
+        const modifier = calculateModifier(statMap, stat, race)
         Object.keys(skills).forEach(skill => {
             Object.keys(skills[skill]).forEach(skl => {
                 const proficiencies = s.getProficiencies(state);
@@ -126,22 +129,19 @@ function setAbilityModifier(statObject, state){
             })
         });
 
-        newStatObject[ability] = {
-            score: statObject[ability].score,
+        newStatObject[stat] = {
+            score: statMap.getIn([stat, 'score']),
             modifier,
-            ...skills[ability]
+            ...skills[stat]
 
         }
     })
 
-    return newStatObject;
+    return fromJS(newStatObject);
 }
 
 function calculateModifier(stats, ability, race){
-    console.log(race)
-    console.log(stats)
-    console.log(ability)
-    const baseModifier = Math.floor(Number(stats[ability].score)/2) - 5;
+    const baseModifier = Math.floor(Number(stats.getIn([ability, 'score']))/2) - 5;
     switch (true){
         case race === 'human':
             return baseModifier + 1;
@@ -155,9 +155,6 @@ function calculateModifier(stats, ability, race){
 }
 
 function calculateHealth(category, modifier, level){
-    console.log(category);
-    console.log(modifier);
-
     const sidesOfDice = getHitDice(category.name)
     const baseHealth = sidesOfDice + modifier
 

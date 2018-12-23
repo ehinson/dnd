@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm, change } from 'redux-form';
+import { Field, reduxForm, change } from 'redux-form/immutable';
+import { fromJS } from 'immutable';
 
 import playerActions from '../state/actions/player';
 import { roll } from '../utils/playerUtils';
@@ -34,38 +35,38 @@ class Form extends React.Component {
 
   }
   submit = values => {
-    const newPlayer = {
+    const newPlayer = fromJS({
       mainStats: {
         strength: {
-            score: values.strength,
+            score: values.get('strength'),
         },
         dexterity: {
-            score: values.dexterity,
+            score: values.get('dexterity'),
         },
         constitution: {
-            score: values.constitution,
+            score: values.get('constitution'),
         },
         intelligence: {
-            score: values.intelligence,
+            score: values.get('intelligence'),
         },
         wisdom: {
-            score: values.wisdom,
+            score: values.get('wisdom'),
         },
         charisma: {
-            score: values.charisma,
+            score: values.get('charisma'),
         },
       },
       race: {
-        name: values.race,
+        name: values.get('race'),
       },
       health: {
         currentHealth: 0,
         maxHealth: 0,
       },
       category: {
-        name: values.category,
+        name: values.get('category'),
       }
-    }
+    })
     this.props.createPlayer(newPlayer)
   }
 
@@ -131,28 +132,30 @@ class Form extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({player}) => {
   return {
-    player: state.player,
-    initialValues: {
-      strength: 10,
-      dexterity: 10,
-      constitution: 10,
-      intelligence: 10,
-      wisdom: 10,
-      charisma: 10
-    },
+    player,
+    initialValues: fromJS({
+      strength: player.getIn(['mainStats','strength','score']) || 10,
+      dexterity: player.getIn(['mainStats','dexterity','score']) || 10,
+      constitution: player.getIn(['mainStats','constitution','score']) || 10,
+      intelligence: player.getIn(['mainStats','intelligence','score']) || 10,
+      wisdom: player.getIn(['mainStats','wisdom','score']) || 10,
+      charisma: player.getIn(['mainStats','charisma','score']) || 10,
+    }),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     createPlayer: player => {
-      // create thunks so it's thenable?
-      dispatch(playerActions.race.set(player.race))
-      dispatch(playerActions.mainStats.set(player.mainStats))
-      dispatch(playerActions.category.set(player.category))
-      dispatch(playerActions.health.set(player.category))
+      // async?
+      dispatch(playerActions.race.set(player.get('race')))
+      dispatch(playerActions.mainStats.set(player.get('mainStats')))
+      dispatch(playerActions.category.set(player.get('category')))
+      dispatch(playerActions.health.set(player.get('health')))
+      // this depends on mainStats being set
+      dispatch(playerActions.initiative.set())
     },
     changeFieldValue: function(field, value) {
       dispatch(change('player', field, value))

@@ -10,7 +10,7 @@ export const getPlayerLevel = state => {
 
 export const getPlayerAbilityModifier = (state, ability) => {
     return getMainStats(state).getIn([ability, 'modifier'])
-}
+};
 
 export const getMainStats = (state) => {
     return getPlayer(state).get('mainStats');
@@ -26,4 +26,8 @@ export const getProficiencies = (state) => {
 
 export const getProficiencyBonus = (state) => {
     return getPlayer(state).getIn(['level', 'proficiencyBonus']);
+};
+
+export const getInitiative = (state) => {
+    return getMainStats(state).getIn(['dexterity', 'modifier'])
 };
