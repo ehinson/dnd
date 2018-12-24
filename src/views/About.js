@@ -49,7 +49,7 @@ export default class About extends React.Component {
           </div>
           <PageRight rightOpen={this.state.right.open} leftOpen={this.state.left.open}>
             You chose B
-            <Link to="/combat">Combat</Link>
+            <Link to="/character">Character</Link>
           </PageRight>
           <PageLeft rightOpen={this.state.right.open} leftOpen={this.state.left.open}>
             You chose A

@@ -9,7 +9,7 @@ import Home from './Home';
 import Topics from './Topic';
 import About from './About';
 import Ring from './Ring';
-import Combat from './Combat';
+import Character from './Character';
 
 export const SplitLayoutContainer = styled.div`
   position: relative;
@@ -151,7 +151,7 @@ class App extends Component {
           <Route path="/about" component={About}/>
           <Route path="/ring" component={Ring}/>
           <Route path="/topics" component={Topics}/>
-          <Route path="/combat" component={Combat}/>
+          <Route path="/character" component={Character}/>
         </SplitLayoutContainer>
       </Router>
     );
