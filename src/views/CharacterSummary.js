@@ -4,15 +4,17 @@ import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form/immutable';
 
 import * as playerOperations from '../state/operations/player';
-import { SplitLayoutContainer, SplitLayout, FullScreen, Content } from './App';
+import { SplitLayout, FullScreen, Content } from './App';
 import { bindActionCreators } from 'redux';
 
 
-const Summary = () => (
+const Summary = ({player}) => (
   <SplitLayout>
     <FullScreen>
       <Content>
-        First Page<br/>
+        Character Summary <br />
+        Add a link that leads to combat<br />
+        {player.get('name')}
         <Link to="/about">Link to Page 2, make a choice</Link>
       </Content>
     </FullScreen>

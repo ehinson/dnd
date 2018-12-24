@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router/immutable';
+import { Route } from 'react-router-dom';
 import styled from 'styled-components';
+import { history } from '../index';
 
 import Home from './Home';
 import Topics from './Topic';
@@ -149,16 +148,16 @@ export const PageLeft = styled(Page)`
 class App extends Component {
   render() {
     return (
-      <Router>
+      <ConnectedRouter history={history}>
         <SplitLayoutContainer>
           <Route exact path="/" component={Home}/>
           <Route path="/about" component={About}/>
           <Route path="/ring" component={Ring}/>
           <Route path="/topics" component={Topics}/>
           <Route path="/character" component={Character}/>
-          <Route path="/summary" component={CharacterSummary}/>
+          <Route path="/character-summary" component={CharacterSummary}/>
         </SplitLayoutContainer>
-      </Router>
+      </ConnectedRouter>
     );
   }
 }

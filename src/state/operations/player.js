@@ -1,5 +1,7 @@
 import { change } from 'redux-form/immutable';
 import { fromJS } from 'immutable';
+import { push } from 'connected-react-router/immutable';
+
 import playerActions from '../actions/player';
 import { roll } from '../../utils/playerUtils';
 
@@ -78,6 +80,6 @@ export const submitCharacterForm = values => dispatch => {
         }
       })
       createPlayer(newPlayer)(dispatch)
-      // redirect to a summary page with stats and a link to go on
+      dispatch(push('/character-summary'))
 }
 
