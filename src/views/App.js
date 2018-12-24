@@ -10,6 +10,7 @@ import Topics from './Topic';
 import About from './About';
 import Ring from './Ring';
 import Character from './Character';
+import CharacterSummary from './CharacterSummary';
 
 export const SplitLayoutContainer = styled.div`
   position: relative;
@@ -32,6 +33,7 @@ export const LeftSide = styled.div`
   height: 100%;
   text-align: center;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   background: red;
   left: 0;
 	color: white;
@@ -48,6 +50,7 @@ export const RightSide = styled.div`
   height: 100%;
   text-align: center;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   background: yellow;
   right: 0;
 	color: black;
@@ -64,8 +67,8 @@ export const FullScreen = styled.div`
   height: 100%;
   text-align: center;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   background: blue;
-
 `
 
 export const Content = styled.div`
@@ -102,6 +105,7 @@ export const Page = styled.div`
   height: auto;
   font-size: 1.4em;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   transition: transform 0.6s;
 `
 
@@ -152,6 +156,7 @@ class App extends Component {
           <Route path="/ring" component={Ring}/>
           <Route path="/topics" component={Topics}/>
           <Route path="/character" component={Character}/>
+          <Route path="/summary" component={CharacterSummary}/>
         </SplitLayoutContainer>
       </Router>
     );

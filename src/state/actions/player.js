@@ -4,6 +4,10 @@ const actions = createActions({
     PLAYER: {
         SET: player => player,
 
+        NAME: {
+            SET: name => name,
+        },
+
         MODIFIER: {
             SET: modifier => modifier,
         },

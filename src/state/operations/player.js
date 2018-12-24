@@ -5,6 +5,7 @@ import { roll } from '../../utils/playerUtils';
 
 
 export const generateAbilityScore = (fieldName, sides, numberOfDice) => dispatch => {
+    // make this more generic so you can use it for combat
     let rollArray = [];
     for(var i = 0; i < numberOfDice; i++){
       let diceRoll = roll(sides)
@@ -33,6 +34,7 @@ export const generateAbilityScore = (fieldName, sides, numberOfDice) => dispatch
 
 export const createPlayer = player => dispatch =>  {
     // async?
+    dispatch(playerActions.name.set(player.get('name')))
     dispatch(playerActions.race.set(player.get('race')))
     dispatch(playerActions.mainStats.set(player.get('mainStats')))
     dispatch(playerActions.category.set(player.get('category')))
@@ -43,6 +45,7 @@ export const createPlayer = player => dispatch =>  {
 
 export const submitCharacterForm = values => dispatch => {
     const newPlayer = fromJS({
+        name: values.getIn(['identification', 'name']),
         mainStats: {
           strength: {
               score: values.getIn(['abilities','strength']),
@@ -71,9 +74,10 @@ export const submitCharacterForm = values => dispatch => {
           maxHealth: 0,
         },
         category: {
-          name: values.get(['classification','category']),
+          name: values.getIn(['classification','category']),
         }
       })
       createPlayer(newPlayer)(dispatch)
+      // redirect to a summary page with stats and a link to go on
 }
 

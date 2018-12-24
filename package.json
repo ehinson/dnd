@@ -3,24 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "immutable": "3.8.2",
-    "moment": "2.22.1",
-    "moment-timezone": "0.5.14",
-    "prop-types": "15.6.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-redux": "^5.0.7",
+    "connected-react-router": "^6.0.0",
+    "immutable": "4.0.0-rc.12",
+    "moment": "2.23.1",
+    "moment-timezone": "0.5.23",
+    "prop-types": "15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "5.0.0-alpha.9",
-    "react-scripts": "1.1.4",
-    "redux": "3.7.2",
-    "redux-actions": "2.2.1",
-    "redux-form": "7.2.1",
-    "redux-form-validators": "2.1.2",
+    "react-scripts": "2.1.2",
+    "redux": "4.0.1",
+    "redux-actions": "2.6.4",
+    "redux-form": "8.1.0",
+    "redux-form-validators": "2.7.2",
     "redux-immutable": "4.0.0",
     "redux-pack": "0.1.5",
-    "redux-thunk": "2.2.0",
-    "styled-components": "^3.3.3"
+    "redux-thunk": "2.3.0",
+    "styled-components": "^4.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,7 +31,7 @@
     "lint:css": "stylelint './src/**/*.js'"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.5.1",
+    "babel-plugin-styled-components": "^1.10.0",
     "redux-devtools-extension": "^2.13.5",
     "stylelint": "^9.4.0",
     "stylelint-config-styled-components": "^0.1.1",
@@ -40,5 +41,11 @@
     "plugins": [
       "babel-plugin-styled-components"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
