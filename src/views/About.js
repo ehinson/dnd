@@ -31,7 +31,6 @@ export default class About extends React.Component {
   }
   render(){
     return (
-      <SplitLayoutContainer>
         <SplitLayout leftOpen={this.state.left.open} rightOpen={this.state.right.open}>
           <div className="intro">
           <LeftSide leftOpen={this.state.left.open} rightOpen={this.state.right.open} onClick={this.handleLeftClick}>
@@ -56,7 +55,6 @@ export default class About extends React.Component {
             <Link to="/ring">Ring</Link>
           </PageLeft>
         </SplitLayout>
-      </SplitLayoutContainer>
     )
   }
 }

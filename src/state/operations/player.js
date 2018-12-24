@@ -34,7 +34,7 @@ export const generateAbilityScore = (fieldName, sides, numberOfDice) => dispatch
     }
 }
 
-export const createPlayer = player => dispatch =>  {
+export const setPlayer = player => dispatch =>  {
     // async?
     dispatch(playerActions.name.set(player.get('name')))
     dispatch(playerActions.race.set(player.get('race')))
@@ -46,7 +46,13 @@ export const createPlayer = player => dispatch =>  {
 }
 
 export const submitCharacterForm = values => dispatch => {
-    const newPlayer = fromJS({
+    const newPlayer = createPlayer(values);
+    setPlayer(newPlayer)(dispatch)
+    dispatch(push('/character-summary'))
+}
+
+export function createPlayer(values){
+    return fromJS({
         name: values.getIn(['identification', 'name']),
         mainStats: {
           strength: {
@@ -78,8 +84,6 @@ export const submitCharacterForm = values => dispatch => {
         category: {
           name: values.getIn(['classification','category']),
         }
-      })
-      createPlayer(newPlayer)(dispatch)
-      dispatch(push('/character-summary'))
+    })
 }
 

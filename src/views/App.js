@@ -150,12 +150,12 @@ class App extends Component {
     return (
       <ConnectedRouter history={history}>
         <SplitLayoutContainer>
-          <Route exact path="/" component={Home}/>
-          <Route path="/about" component={About}/>
-          <Route path="/ring" component={Ring}/>
-          <Route path="/topics" component={Topics}/>
-          <Route path="/character" component={Character}/>
-          <Route path="/character-summary" component={CharacterSummary}/>
+            <Route exact path="/" component={Home}/>
+            <Route path="/about" component={About}/>
+            <Route path="/ring" component={Ring}/>
+            <Route path="/topics" component={Topics}/>
+            <Route path="/character" component={Character}/>
+            <Route path="/character-summary" component={CharacterSummary}/>
         </SplitLayoutContainer>
       </ConnectedRouter>
     );

@@ -4,16 +4,14 @@ import {SplitLayoutContainer, SplitLayout, FullScreen, Content} from './App';
 
 
 const Home = () => (
-  <SplitLayoutContainer>
-    <SplitLayout>
-      <FullScreen>
-        <Content>
-          First Page<br/>
-          <Link to="/about">Link to Page 2, make a choice</Link>
-        </Content>
-      </FullScreen>
-    </SplitLayout>
-  </SplitLayoutContainer>
+  <SplitLayout>
+    <FullScreen>
+      <Content>
+        First Page<br/>
+        <Link to="/about">Link to Page 2, make a choice</Link>
+      </Content>
+    </FullScreen>
+  </SplitLayout>
 )
 
 export default Home

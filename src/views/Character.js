@@ -164,7 +164,7 @@ const mapStateToProps = ({player}) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  createPlayer: playerOperations.createPlayer,
+  setPlayer: playerOperations.setPlayer,
   submitCharacterForm: playerOperations.submitCharacterForm,
   generateAbilityScore: playerOperations.generateAbilityScore,
 }, dispatch)

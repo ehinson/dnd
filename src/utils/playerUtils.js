@@ -34,7 +34,7 @@ const skills = {
 
 export function roll(sides){
     return Math.floor(Math.random() * sides) + 1;
-  }
+}
 
 export function setAbilityModifier(statMap, state){
     const newStatObject = {};
