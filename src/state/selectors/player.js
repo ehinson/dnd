@@ -29,5 +29,5 @@ export const getProficiencyBonus = (state) => {
 };
 
 export const getInitiative = (state) => {
-    return getMainStats(state).getIn(['dexterity', 'modifier'])
+    return getPlayer(state).get('initiative');
 };

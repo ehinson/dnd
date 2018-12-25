@@ -20,6 +20,7 @@ export const defaultState = fromJS({
         maxHealth: 8,
     },
     proficiencies: [],
+    armor_class: 10,
     mainStats: {
         strength: {
             score: 10,
@@ -74,7 +75,10 @@ export default handleActions({
             }
         },
         INITIATIVE: {
-            SET: (state) => state.set('initiative', s.getInitiative(state)),
+            SET: (state) => state.set('initiative', s.getPlayerAbilityModifier(state, 'dexterity')),
+        },
+        ARMOR_CLASS: {
+            SET: (state) => state.set('armor_class', (s.getPlayerAbilityModifier(state, 'dexterity') + 10)),
         },
         PROFICIENCIES: {
             SET: (state, { payload: prof }) => state.merge(fromJS(prof)),

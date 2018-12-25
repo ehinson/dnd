@@ -38,6 +38,7 @@ export const defaultState = fromJS({
         currentHealth: 0,
         maxHealth: 0,
     },
+    initiative: 0,
   })
 
 
@@ -54,9 +55,6 @@ export default handleActions({
         },
         INITIATIVE: {
             SET: (state) => state.set('initiative', m.getInitiative(state)),
-        },
-        PROFICIENCIES: {
-            SET: (state, { payload: prof }) => state.merge(fromJS(prof)),
         },
     },
 }, defaultState)

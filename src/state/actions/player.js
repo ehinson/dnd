@@ -38,6 +38,10 @@ const actions = createActions({
             SET: init => init,
         },
 
+        ARMOR_CLASS: {
+            SET: armor => armor,
+        },
+
         MAIN_STATS: {
             SET: stats => stats,
         }

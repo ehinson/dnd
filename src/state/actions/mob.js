@@ -4,10 +4,6 @@ const actions = createActions({
     MOB: {
         SET: player => player,
 
-        NAME: {
-            SET: name => name,
-        },
-
         HEALTH: {
             SET: health => health,
             HEAL: {
@@ -16,10 +12,6 @@ const actions = createActions({
             HARM: {
                 SET: harm => harm,
             },
-        },
-
-        PROFICIENCIES: {
-            SET: prof => prof
         },
 
         INITIATIVE: {

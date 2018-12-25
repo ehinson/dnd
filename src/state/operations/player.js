@@ -43,6 +43,7 @@ export const setPlayer = player => dispatch =>  {
     dispatch(playerActions.health.set(player.get('health')))
     // this depends on mainStats being set
     dispatch(playerActions.initiative.set())
+    dispatch(playerActions.armorClass.set())
 }
 
 export const submitCharacterForm = values => dispatch => {
