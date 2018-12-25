@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import * as playerOperations from '../state/operations/player';
 import * as mobOperations from '../state/operations/mob';
+import * as combatOperations from '../state/operations/combat';
 import { SplitLayout, FullScreen, Content } from './App';
 import { bindActionCreators } from 'redux';
 
@@ -46,7 +47,7 @@ const Features = styled.div`
 
 class Summary extends Component {
   componentDidMount() {
-    this.props.fetchMob()
+    this.props.createCombat();
   }
   render() {
     const {player} = this.props;
@@ -79,6 +80,7 @@ const mapStateToProps = ({player}) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchMob: mobOperations.fetchRandomMob,
+  createCombat: combatOperations.createCombat,
 }, dispatch)
 
 const CharacterSummary = connect(

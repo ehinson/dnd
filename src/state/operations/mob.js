@@ -1,44 +1,50 @@
-import { change } from 'redux-form/immutable';
-import { fromJS, Map } from 'immutable';
-import { push } from 'connected-react-router/immutable';
+import { fromJS } from 'immutable';
 import * as math from 'mathjs'
 
-import { roll, setAbilityModifier } from '../../utils/playerUtils';
+import { roll } from '../../utils/playerUtils';
 import * as s from '../selectors/player';
 import * as m from '../selectors/mob';
 
 import mobActions from '../actions/mob';
 import mobs from '../../utils/5e_SRD_monster';
 
+import { calculateModifier } from '../../utils/playerUtils';
 
-export const fetchRandomMob = player => (dispatch, getState) =>  {
-    // fetch a random mob with CR x from the API
-    const state = getState();
-    const playerLevel = s.getPlayerLevel(state);
-    const challengeRating = getChallengeRating(playerLevel)
 
-    // CR less than .25 has actions with damage dice, isn't good, spawn multiple mobs up to CR?
-    const mediumChallenge = mobs.filter(el => {
-        return el.challenge_rating
-            && (math.fraction(el.challenge_rating) < challengeRating)
-            && mobIsNotGood(el)
-            && mobCanDoDamage(el)
+export const fetchRandomMob = () => (dispatch, getState) =>  {
+    return new Promise((resolve, reject) => {
+        // fetch a random mob with CR x from the API
+        const state = getState();
+        const playerLevel = s.getPlayerLevel(state) || 1;
+        const challengeRating = getChallengeRating(playerLevel)
+
+        // CR less than .25 has actions with damage dice, isn't good, spawn multiple mobs up to CR?
+        const mediumChallenge = mobs.filter(el => {
+            return el.challenge_rating
+                && (math.fraction(el.challenge_rating) < challengeRating)
+                && mobIsNotGood(el)
+                && mobCanDoDamage(el)
+        })
+
+        const randomIndex = math.randomInt(mediumChallenge.length - 1)
+        const randomMob = createMob(mediumChallenge[randomIndex])
+
+        // return mob or set in an array on the mob reducer???
+        dispatch(mobActions.set(randomMob));
+
+        resolve(randomMob);
     })
-    console.log(mediumChallenge)
-
-
-    const randomIndex = math.randomInt(mediumChallenge.length - 1)
-    dispatch(mobActions.set(createMob(mediumChallenge[randomIndex])))
-    console.log(damageRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
-    console.log(attackRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
+    // console.log(damageRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
+    // console.log(attackRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
 }
 
 // cast spell?
 
-export const attackRoll =  (actions) => dispatch => {
-    const attackBonus = actions.attack_bonus || 0;
+export const attackRoll =  (actions) => {
+    const attackBonus = actions.get('attack_bonus') || 0;
     const roll20 = roll(20);
     let attackRoll;
+
     switch (roll20) {
         case 1:
             attackRoll = 'critical miss'
@@ -55,11 +61,13 @@ export const attackRoll =  (actions) => dispatch => {
     return attackRoll;
 }
 
-export const damageRoll =  (actions) => dispatch => {
-    const damageDice = actions.damage_dice;
+export const damageRoll =  (actions) => {
+    const randomIndex = actions.length > 1 ? math.randomInt(actions.length) : 0;
+    const action = actions.get(randomIndex)
+    const damageDice = action.get('damage_dice');
     const numberOfDice = damageDice.split("d")[0];
     const sides = damageDice.split("d")[1];
-    const damageBonus = actions.damage_bonus || 0;
+    const damageBonus = action.get('damage_bonus') || 0;
 
     let rollArray = [];
 
@@ -72,13 +80,14 @@ export const damageRoll =  (actions) => dispatch => {
       return item + total
     });
 
-    return damageRoll + damageBonus;
+    return [action, damageRoll + damageBonus];
 }
 
-export const initiativeRoll =  () => (dispatch, getState) => {
+export const initiativeRoll =  (dexModifier=0) => {
     // adjust for multiple mobs
-    const mobInitiative = m.getInitiative(getState())
-    return roll(20) + mobInitiative;
+    // json doesn't have modifiers? calculate?
+    const roll20 = roll(20);
+    return roll20 + dexModifier;
 }
 
 export function getChallengeRating(level){
@@ -87,6 +96,14 @@ export function getChallengeRating(level){
 }
 
 export function createMob(values){
+    const dexterity_modifier = calculateModifier(
+        fromJS({
+        dexterity: {
+            score: values.dexterity,
+            save: values.dexterity_save || 0,
+        }}),
+        'dexterity',
+        null);
     const mob =  {
         name: values.name,
         armorClass: values.armor_class,
@@ -102,6 +119,7 @@ export function createMob(values){
           dexterity: {
               score: values.dexterity,
               save: values.dexterity_save || 0,
+              modifier: dexterity_modifier,
           },
           constitution: {
               score: values.constitution,
@@ -120,6 +138,7 @@ export function createMob(values){
               save: values.charisma_save || 0,
           },
         },
+        initiative: initiativeRoll(dexterity_modifier),
         health: {
           currentHealth: values.hit_points,
           maxHealth: values.hit_points,

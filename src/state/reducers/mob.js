@@ -12,26 +12,32 @@ export const defaultState = fromJS({
         strength: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
         dexterity: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
         constitution: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
         intelligence: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
         wisdom: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
         charisma: {
             score: 0,
             modifier: 0,
+            save: 0,
         },
     },
     health: {
@@ -42,9 +48,10 @@ export const defaultState = fromJS({
   })
 
 
+// calculate modifiers and add them to the object
 export default handleActions({
     MOB: {
-        SET: (state, { payload: player }) => state.mergeDeep(fromJS(player)),
+        SET: (state, { payload: mob }) => state.mergeDeep(fromJS(mob)),
         HEALTH: {
             HEAL: {
                 SET: (state, { payload: heal }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) + heal)),
@@ -54,7 +61,7 @@ export default handleActions({
             }
         },
         INITIATIVE: {
-            SET: (state) => state.set('initiative', m.getInitiative(state)),
+            SET: (state, { payload: init }) => state.set('initiative', init),
         },
     },
 }, defaultState)

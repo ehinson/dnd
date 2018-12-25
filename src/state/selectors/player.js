@@ -24,6 +24,10 @@ export const getProficiencies = (state) => {
     return getPlayer(state).get('proficiencies');
 };
 
+export const getName = (state) => {
+    return getPlayer(state).get('name');
+};
+
 export const getProficiencyBonus = (state) => {
     return getPlayer(state).getIn(['level', 'proficiencyBonus']);
 };

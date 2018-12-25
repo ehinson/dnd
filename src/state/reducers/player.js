@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
-import * as s from '../selectors/player';
+import * as p from '../selectors/player';
 import { setAbilityModifier,calculateHealth } from '../../utils/playerUtils';
 
 export const defaultState = fromJS({
@@ -66,7 +66,7 @@ export default handleActions({
             SET: (state, { payload: category }) => state.set('category', fromJS(category)),
         },
         HEALTH: {
-            SET: (state, { payload: category }) => state.set('health', fromJS(calculateHealth(category, s.getPlayerAbilityModifier(state, 'constitution'), s.getPlayerLevel(state)))),
+            SET: (state, { payload: category }) => state.set('health', fromJS(calculateHealth(category, p.getPlayerAbilityModifier(state, 'constitution'), p.getPlayerLevel(state)))),
             HEAL: {
                 SET: (state, { payload: heal }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) + heal)),
             },
@@ -75,10 +75,10 @@ export default handleActions({
             }
         },
         INITIATIVE: {
-            SET: (state) => state.set('initiative', s.getPlayerAbilityModifier(state, 'dexterity')),
+            SET: (state) => state.set('initiative', p.getPlayerAbilityModifier(state, 'dexterity')),
         },
         ARMOR_CLASS: {
-            SET: (state) => state.set('armor_class', (s.getPlayerAbilityModifier(state, 'dexterity') + 10)),
+            SET: (state) => state.set('armor_class', (p.getPlayerAbilityModifier(state, 'dexterity') + 10)),
         },
         PROFICIENCIES: {
             SET: (state, { payload: prof }) => state.merge(fromJS(prof)),
