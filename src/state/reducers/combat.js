@@ -18,6 +18,7 @@ export const defaultState = fromJS({
 export default handleActions({
     COMBAT: {
         SET: (state, { payload: combat }) => state.set('combat', combat),
+        RESET: (state) => state.set('combat', defaultState),
         INITIATIVE: {
             SET: (state, { payload: init }) => state.set('initiative', init),
         },

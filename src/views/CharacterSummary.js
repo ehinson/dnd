@@ -50,7 +50,7 @@ class Summary extends Component {
     this.props.createCombat();
   }
   render() {
-    const {player} = this.props;
+    const {player, combat, mob} = this.props;
     return (
       <SplitLayout>
       <FullScreen>
@@ -61,7 +61,11 @@ class Summary extends Component {
             <Features>{player.get('name')|| 'Test'}</Features>
             <Features>{player.get('name')|| 'Test'}</Features>
             <Features>{player.get('name')|| 'Test'}</Features>
+            {combat.get('log').map(log => (
+              <Features key={log}>{log}</Features>
+            ))}
             Add a button that leads to combat here<br />
+            <button onClick={()=> this.props.fight()}>FIGHT</button>
             <Link to="/about">Link to Page 2, make a choice</Link>
           </SummaryPanel>
         </Content>
@@ -72,15 +76,18 @@ class Summary extends Component {
 }
 
 
-const mapStateToProps = ({player}) => {
+const mapStateToProps = ({player, combat, mob}) => {
   return {
     player,
+    combat,
+    mob,
   }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchMob: mobOperations.fetchRandomMob,
   createCombat: combatOperations.createCombat,
+  fight: combatOperations.fight,
 }, dispatch)
 
 const CharacterSummary = connect(

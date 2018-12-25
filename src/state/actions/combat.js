@@ -4,6 +4,8 @@ const actions = createActions({
     COMBAT: {
         SET: combat => combat,
 
+        RESET: combat => combat,
+
         ACTIVE: {
             SET: active => active,
         },
@@ -20,6 +22,10 @@ const actions = createActions({
 
         INITIATIVE: {
             SET: init => init,
+        },
+
+        LOG: {
+            SET: log => log,
         },
 
         MOBS: {

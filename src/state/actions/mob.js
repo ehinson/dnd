@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions';
 
 const actions = createActions({
     MOB: {
-        SET: player => player,
+        SET: mob => mob,
 
         HEALTH: {
             SET: health => health,

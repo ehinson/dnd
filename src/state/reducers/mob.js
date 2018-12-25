@@ -51,7 +51,7 @@ export const defaultState = fromJS({
 // calculate modifiers and add them to the object
 export default handleActions({
     MOB: {
-        SET: (state, { payload: mob }) => state.mergeDeep(fromJS(mob)),
+        SET: (state, { payload: mob }) => state.merge(mob),
         HEALTH: {
             HEAL: {
                 SET: (state, { payload: heal }) => state.setIn(['health','currentHealth'], fromJS(state.getIn(['health', 'currentHealth']) + heal)),
