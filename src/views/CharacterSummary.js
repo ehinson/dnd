@@ -8,7 +8,7 @@ import * as mobOperations from '../state/operations/mob';
 import { SplitLayout, FullScreen, Content } from './App';
 import { bindActionCreators } from 'redux';
 
-
+// uncomment if you move the mobs to another component
 // const Summary = ({player}) => (
 //   <SplitLayout>
 //       <FullScreen>

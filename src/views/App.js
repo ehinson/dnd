@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import { Route } from 'react-router-dom';
 import styled from 'styled-components';
-import { history } from '../index';
+import { history } from '../state/configureStore';
 
 import Home from './Home';
 import Topics from './Topic';
@@ -145,6 +145,7 @@ export const PageLeft = styled(Page)`
   ` };
 `
 
+// https://www.npmjs.com/package/redux-persist or use localStorage
 class App extends Component {
   render() {
     return (
