@@ -97,7 +97,7 @@ export function createPlayer(values){
             currentLevel: 1,
             proficiencyBonus: 2,
         },
-        proficiencies: [],
+        proficiencies: values.getIn(['classification', 'proficiencies']).map(prof => prof.replace(/Skill: /gi, '').toLowerCase()),
         race: {
           name: values.getIn(['classification','race']),
         },

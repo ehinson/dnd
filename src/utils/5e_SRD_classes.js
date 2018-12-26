@@ -508,8 +508,8 @@ const data = [
                         "desc":[
                             "You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level. Once you use this feature, you must finish a short or long rest before you can use it again."
                         ],
-                        "damage_dice": "1d10",
-                        "damage_bonus": 1,
+                        "health_dice": "1d10",
+                        "health_bonus": 1,
                     }
                 ],
                 "class_specific": {

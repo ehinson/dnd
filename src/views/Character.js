@@ -23,6 +23,7 @@ const FormStep = styled.div`
     if (p.page === 1) return '#7B7D7D'
     if (p.page === 2) return '#B3B6B7'
     if (p.page === 3) return '#ECF0F1'
+    if (p.page === 4) return 'red'
   }};
 `;
 
@@ -41,11 +42,15 @@ const ButtonTab = styled.button`
   }
   :nth-of-type(2) {
     background-color: #B3B6B7;
-    top: 33%;
+    top: 25%;
   }
   :nth-of-type(3) {
     background-color: #ECF0F1;
-    top: 66%;
+    top: 50%;
+  }
+  :nth-of-type(4) {
+    background-color: red;
+    top: 75%;
   }
 `;
 class Character extends React.Component {
@@ -89,6 +94,7 @@ class Character extends React.Component {
             <ButtonTab onClick={()=> this.setActiveTab(1)} />
             <ButtonTab onClick={()=> this.setActiveTab(2)} />
             <ButtonTab onClick={()=> this.setActiveTab(3)} />
+            <ButtonTab onClick={()=> this.setActiveTab(4)} />
           </div>
 
           <form onSubmit={handleSubmit(submitCharacterForm)}>
@@ -124,6 +130,27 @@ class Character extends React.Component {
             }
 
             {this.state.page === 3 &&
+              <FormStep page={this.state.page}>
+                <Content>
+                  Character<br/>
+                  <FormSection name="classification">
+                    <Classification
+                      player={this.props.player}
+                      featureChoices={this.props.featureChoices}
+                      hasFeatureChoice={this.props.hasFeatureChoice}
+                      proficiencyChoices={this.props.proficiencyChoices}
+                     />
+                  </FormSection>
+                  <button type="button" onClick={this.handleBack}>
+                    Back
+                  </button>
+
+                  <input type="submit" value="Create Player!" disabled={submitting}/>
+                </Content>
+              </FormStep>
+            }
+        {/* Equipment choices */}
+        {this.state.page === 4 &&
               <FormStep page={this.state.page}>
                 <Content>
                   Character<br/>

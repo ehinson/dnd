@@ -28,6 +28,8 @@ const SummaryPanel = styled.div`
   max-width: 960px;
   width: 100%;
   min-height: 100px;
+  overflow: scroll;
+  max-height: 400px;
   background-color: #fff;
   border-radius: 10px;
   padding: 15px 25px;
@@ -59,15 +61,14 @@ class Summary extends Component {
             Character Summary <br />
             Insert Image/Icon here
             <Features>{player.get('name')|| 'Test'}</Features>
-            <Features>{player.get('name')|| 'Test'}</Features>
-            <Features>{player.get('name')|| 'Test'}</Features>
             {combat.get('log').map(log => (
               <Features key={log}>{log}</Features>
             ))}
-            Add a button that leads to combat here<br />
-            <button onClick={()=> this.props.fight()}>FIGHT</button>
-            <Link to="/about">Link to Page 2, make a choice</Link>
           </SummaryPanel>
+          Add a button that leads to combat here<br />
+          {/* disable button if dead or won show link to next */}
+          <button onClick={()=> this.props.fight()}>FIGHT</button>
+          <Link to="/about">Link to Page 2, make a choice</Link>
         </Content>
       </FullScreen>
   </SplitLayout>

@@ -64,7 +64,6 @@ export const Classification = (props) => (
     <div>
     <label>Choose Fighting Style</label>
     <div>
-      <Fragment>
       <Field name="features" component="select">
 
         <option />
@@ -73,8 +72,7 @@ export const Classification = (props) => (
         ))}
 
       </Field>
-      { props.hasFeatureChoice && <span>{props.featureChoices.filter(el => el.get('name') === props.hasFeatureChoice).getIn([0,'desc', 0])}</span>}
-      </Fragment>
+      { props.hasFeatureChoice && <div>{props.featureChoices.filter(el => el.get('name') === props.hasFeatureChoice).getIn([0,'desc', 0])}</div>}
     </div>
   </div>
   }
