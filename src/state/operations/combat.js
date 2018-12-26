@@ -9,6 +9,7 @@ import * as m from '../selectors/mob';
 import * as c from '../selectors/combat';
 
 import * as mobOperations from '../operations/mob';
+import * as playerOperations from '../operations/player';
 
 import mobActions from '../actions/mob';
 import combatActions from '../actions/combat';
@@ -54,8 +55,16 @@ export const fight = () => (dispatch, getState) => {
             break;
 
         case 'player':
-            // prompt player to click button, select who they are fighting. only button click will attack
-            // playerAttack('player')
+            // TODO: prompt player to click button, select who they are fighting. only button click will attack
+
+            dispatch(combatActions.player.attack.toggle());
+            playerAttack(player, mobs.get(0))(dispatch, getState);
+            if (activeIndex !== initiativeOrder.size + 1) {
+                activeIndex ++;
+            } else {
+                activeIndex = 0;
+                dispatch(combatActions.round.next.set());
+            }
             dispatch(combatActions.player.attack.toggle());
             break;
 
@@ -84,8 +93,21 @@ const mobAttack = (mob, target) => (dispatch, getState) =>  {
     }
 }
 
-const playerAttack = (target) => (dispatch, getState) =>  {
+const playerAttack = (player, target) => (dispatch, getState) =>  {
+    const attackRoll = playerOperations.attackRoll();
+    const damageRoll = playerOperations.damageRoll();
 
+    if (target.get('armorClass') <= attackRoll || attackRoll === 'critical hit') {
+        console.log(`${player.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')}!`, damageRoll[1], damageRoll[0].get('desc'))
+        dispatch(combatActions.log.set(`${player.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')} for ${damageRoll[1]} damage!`))
+        dispatch(playerActions.health.harm.set(damageRoll[1]))
+    } else if(attackRoll === 'critical miss') {
+        console.log(`${player.get('name')} critically missed!`, attackRoll, damageRoll[1])
+        dispatch(combatActions.log.set(`${player.get('name')} critically missed!`))
+    } else {
+        console.log(`${player.get('name')} missed!`, attackRoll, damageRoll[1])
+        dispatch(combatActions.log.set(`${player.get('name')} rolled a ${attackRoll} and missed!`))
+    }
 }
 
 export const setInitiativeOrder = () => (dispatch, getState) => {

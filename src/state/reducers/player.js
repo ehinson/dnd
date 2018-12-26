@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 import * as p from '../selectors/player';
-import { setAbilityModifier,calculateHealth } from '../../utils/playerUtils';
+import { setAbilityModifier, calculateHealth } from '../../utils/playerUtils';
 
 export const defaultState = fromJS({
     name: '',
@@ -21,6 +21,9 @@ export const defaultState = fromJS({
     },
     proficiencies: [],
     armor_class: 10,
+    features: [],
+    actions: [],
+    choices: {},// organize by level?
     mainStats: {
         strength: {
             score: 10,
@@ -81,7 +84,23 @@ export default handleActions({
             SET: (state) => state.set('armor_class', (p.getPlayerAbilityModifier(state, 'dexterity') + 10)),
         },
         PROFICIENCIES: {
-            SET: (state, { payload: prof }) => state.merge(fromJS(prof)),
+            SET: (state, { payload: prof }) => state.mergeIn('proficiencies', fromJS(prof)),
+        },
+        FEATURES: {
+            SET: (state, { payload: feature }) => {
+                const featureList = state.get('features')
+                return state.set('features', featureList.concat(fromJS(feature)))
+            },
+        },
+        CHOICES: {
+            SET: (state, { payload: choices }) => {
+                const choiceList = state.getIn(['choices', `level_${p.getPlayerLevel(state)}`])
+                console.log(choiceList)
+                if(!choiceList) {
+                    return state.setIn(['choices', `level_${p.getPlayerLevel(state)}`], fromJS(choices))
+                }
+                return state.mergeIn(['choices', `level_${p.getPlayerLevel(state)}`], fromJS(choices))
+            },
         },
         MAIN_STATS: {
             SET: (state, { payload: stats }) => state.set('mainStats', fromJS(setAbilityModifier(stats, state))),

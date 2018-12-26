@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { reduxForm, FormSection } from 'redux-form/immutable';
+import { reduxForm, FormSection, formValueSelector } from 'redux-form/immutable';
 import { fromJS } from 'immutable';
 import styled from 'styled-components';
 
@@ -55,6 +55,11 @@ class Character extends React.Component {
       visited: false,
       page: 1,
     };
+  }
+
+  componentDidMount(){
+    this.props.fetchFeatureChoices();
+    this.props.fetchProficiencyChoices();
   }
 
   handleNext = () => {
@@ -123,7 +128,12 @@ class Character extends React.Component {
                 <Content>
                   Character<br/>
                   <FormSection name="classification">
-                    <Classification />
+                    <Classification
+                      player={this.props.player}
+                      featureChoices={this.props.featureChoices}
+                      hasFeatureChoice={this.props.hasFeatureChoice}
+                      proficiencyChoices={this.props.proficiencyChoices}
+                     />
                   </FormSection>
                   <button type="button" onClick={this.handleBack}>
                     Back
@@ -140,24 +150,27 @@ class Character extends React.Component {
   }
 }
 
-const mapStateToProps = ({player}) => {
+const mapStateToProps = (state) => {
   return {
-    player,
+    player: state.player,
+    featureChoices: state.player.getIn(['choices', 'level_1', 'featureChoices']),
+    proficiencyChoices: state.player.getIn(['choices', 'level_1', 'proficiencyChoices']),
+    hasFeatureChoice: formValueSelector('player')(state, 'classification.features'),
     initialValues: fromJS({
       abilities: {
-        strength: player.getIn(['mainStats','strength','score']) || 10,
-        dexterity: player.getIn(['mainStats','dexterity','score']) || 10,
-        constitution: player.getIn(['mainStats','constitution','score']) || 10,
-        intelligence: player.getIn(['mainStats','intelligence','score']) || 10,
-        wisdom: player.getIn(['mainStats','wisdom','score']) || 10,
-        charisma: player.getIn(['mainStats','charisma','score']) || 10,
+        strength: state.player.getIn(['mainStats','strength','score']) || 10,
+        dexterity: state.player.getIn(['mainStats','dexterity','score']) || 10,
+        constitution: state.player.getIn(['mainStats','constitution','score']) || 10,
+        intelligence: state.player.getIn(['mainStats','intelligence','score']) || 10,
+        wisdom: state.player.getIn(['mainStats','wisdom','score']) || 10,
+        charisma: state.player.getIn(['mainStats','charisma','score']) || 10,
       },
       classification: {
-        race: player.getIn(['race', 'name']) || 'human',
-        category: player.getIn(['category', 'name']) || 'fighter',
+        race: state.player.getIn(['race', 'name']) || 'human',
+        category: state.player.getIn(['category', 'name']) || 'fighter',
       },
       identification: {
-        name: player.get('name') || '',
+        name: state.player.get('name') || '',
       }
     }),
   }
@@ -167,6 +180,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setPlayer: playerOperations.setPlayer,
   submitCharacterForm: playerOperations.submitCharacterForm,
   generateAbilityScore: playerOperations.generateAbilityScore,
+  fetchFeatureChoices: playerOperations.fetchFeatureChoices,
+  fetchProficiencyChoices: playerOperations.fetchProficiencyChoices,
 }, dispatch)
 
 const CharacterForm = connect(

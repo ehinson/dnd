@@ -36,17 +36,46 @@ export function roll(sides){
     return Math.floor(Math.random() * sides) + 1;
 }
 
-export function setAbilityModifier(statMap, state){
-    const newStatObject = {};
+// export function setAbilityModifier(statMap, state){
+//     const newStatObject = {};
 
-    statMap.mapEntries(([stat,ability]) => {
-        const race = s.getRace(state);
-        const modifier = calculateModifier(statMap, stat, race)
+//     statMap.mapEntries(([stat,ability]) => {
+//         const race = s.getRace(state);
+//         const modifier = calculateModifier(statMap, stat, race)
+//         Object.keys(skills).forEach(skill => {
+//             Object.keys(skills[skill]).forEach(skl => {
+//                 const proficiencies = s.getProficiencies(state);
+//                 if (proficiencies.includes(skl)) {
+//                     const newModifier = modifier + s.getProficiencyBonus(state)
+//                     skills[skill][skl] = newModifier
+//                 } else {
+//                     skills[skill][skl] = modifier
+//                 }
+//             })
+//         });
+
+//         newStatObject[stat] = {
+//             score: statMap.getIn([stat, 'score']),
+//             modifier,
+//             ...skills[stat]
+
+//         }
+//     })
+
+//     return fromJS(newStatObject);
+// }
+
+export function setAbilityModifier(player, mainStats){
+    const newStatObject = {};
+    const { race, proficiencies, level } = player;
+    console.log(mainStats, mainStats.toJS())
+
+    mainStats.mapEntries(([stat,ability]) => {
+        const modifier = calculateModifier(mainStats, stat, race.name)
         Object.keys(skills).forEach(skill => {
             Object.keys(skills[skill]).forEach(skl => {
-                const proficiencies = s.getProficiencies(state);
                 if (proficiencies.includes(skl)) {
-                    const newModifier = modifier + s.getProficiencyBonus(state)
+                    const newModifier = modifier + calculateProficiencyBonus(level.currentLevel)
                     skills[skill][skl] = newModifier
                 } else {
                     skills[skill][skl] = modifier
@@ -55,18 +84,19 @@ export function setAbilityModifier(statMap, state){
         });
 
         newStatObject[stat] = {
-            score: statMap.getIn([stat, 'score']),
+            score: mainStats.get(stat),
             modifier,
             ...skills[stat]
 
         }
     })
+    debugger;
 
     return fromJS(newStatObject);
 }
 
 export function calculateModifier(stats, ability, race){
-    const baseModifier = Math.floor(Number(stats.getIn([ability, 'score']))/2) - 5;
+    const baseModifier = Math.floor(Number(stats.get(ability))/2) - 5;
     switch (true){
         case race === 'human':
             return baseModifier + 1;

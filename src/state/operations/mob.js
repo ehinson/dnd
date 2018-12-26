@@ -83,7 +83,7 @@ export const damageRoll =  (actions) => {
     return [action, damageRoll + damageBonus];
 }
 
-export const initiativeRoll =  (dexModifier=0) => {
+export const initiativeRoll =  (dexModifier = 0) => {
     // adjust for multiple mobs
     // json doesn't have modifiers? calculate?
     const roll20 = roll(20);
@@ -97,11 +97,7 @@ export function getChallengeRating(level){
 
 export function createMob(values){
     const dexterity_modifier = calculateModifier(
-        fromJS({
-        dexterity: {
-            score: values.dexterity,
-            save: values.dexterity_save || 0,
-        }}),
+        fromJS({ dexterity: values.dexterity}),
         'dexterity',
         null);
     const mob =  {

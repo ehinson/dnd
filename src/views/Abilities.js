@@ -37,7 +37,7 @@ export const Abilities = (props) => (
   </Fragment>
 )
 
-export const Classification = () => (
+export const Classification = (props) => (
   <Fragment>
     <div>
       <label>Race</label>
@@ -60,6 +60,39 @@ export const Classification = () => (
         </Field>
       </div>
     </div>
+    { props.player.getIn(['category', "name"]) === "fighter" &&
+    <div>
+    <label>Choose Fighting Style</label>
+    <div>
+      <Fragment>
+      <Field name="features" component="select">
+
+        <option />
+        {props.featureChoices.map(choice => (
+          <option key={choice.get('name')} value={choice.get('name')} >{choice.get('name')}</option>
+        ))}
+
+      </Field>
+      { props.hasFeatureChoice && <span>{props.featureChoices.filter(el => el.get('name') === props.hasFeatureChoice).getIn([0,'desc', 0])}</span>}
+      </Fragment>
+    </div>
+  </div>
+  }
+  { props.player.getIn(['category', "name"]) &&
+    <div>
+    <label>Choose Proficiencies</label>
+    <div>
+     {/* validation check length and deselect/stop pointer events when length === 2 */}
+      <Field name="proficiencies" component="select" type="select-multiple" multiple>
+        <option />
+        {props.proficiencyChoices.map(choice => (
+          <option key={choice.get('name')}  value={choice.get('name')} >{choice.get('name')}</option>
+        ))}
+        {console.log(props.proficiencyChoices.toJS().map(el => el.name))}
+      </Field>
+    </div>
+  </div>
+  }
   </Fragment>
 )
 

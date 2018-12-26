@@ -20,6 +20,10 @@ export const getRace = (state) => {
     return getPlayer(state).getIn(['race', 'name']);
 };
 
+export const getCategory = (state) => {
+    return getPlayer(state).getIn(['category', 'name']);
+};
+
 export const getProficiencies = (state) => {
     return getPlayer(state).get('proficiencies');
 };

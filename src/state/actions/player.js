@@ -31,7 +31,15 @@ const actions = createActions({
         },
 
         PROFICIENCIES: {
-            SET: prof => prof
+            SET: prof => prof,
+        },
+
+        FEATURES: {
+            SET: feature => feature,
+        },
+
+        CHOICES: {
+            SET: choices => choices,
         },
 
         INITIATIVE: {
