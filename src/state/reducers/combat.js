@@ -29,7 +29,15 @@ export default handleActions({
             SET: (state, { payload: mobs }) => state.set('mobs', state.get('mobs').push(mobs.set('isAlive', true).set('isAttacking', false))),
             ATTACK: {
                 TOGGLE: (state,{ payload: index }) => state.setIn(['mobs', index, 'isAttacking'], !state.getIn(['mobs', index, 'isAttacking']))
-            }
+            },
+            HEALTH: {
+                HEAL: {
+                    SET: (state, { payload: heal, index }) => state.setIn(['mobs', index,'health','currentHealth'], fromJS(state.getIn(['mobs', index, 'health', 'currentHealth']) + heal)),
+                },
+                HARM: {
+                    SET: (state, { payload: {harm, index} }) => state.setIn(['mobs', index,'health','currentHealth'], fromJS(state.getIn(['mobs', index, 'health', 'currentHealth']) - harm)),
+                }
+            },
         },
         PLAYER: {
             SET: (state, { payload: player }) => state.setIn(['player', 'stats'], player),

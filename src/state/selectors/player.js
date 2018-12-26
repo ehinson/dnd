@@ -39,3 +39,7 @@ export const getProficiencyBonus = (state) => {
 export const getInitiative = (state) => {
     return getPlayer(state).get('initiative');
 };
+
+export const getCurrentHealth = (state) => {
+    return getPlayer(state).getIn(['health', 'currentHealth']);
+};

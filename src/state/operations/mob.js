@@ -18,7 +18,8 @@ export const fetchRandomMob = () => (dispatch, getState) =>  {
         const playerLevel = s.getPlayerLevel(state) || 1;
         const challengeRating = getChallengeRating(playerLevel)
 
-        // CR less than .25 has actions with damage dice, isn't good, spawn multiple mobs up to CR?
+        // CR less than .25 has actions with damage dice, isn't good,
+        // TODO: spawn multiple mobs up to CR?
         const mediumChallenge = mobs.filter(el => {
             return el.challenge_rating
                 && (math.fraction(el.challenge_rating) < challengeRating)
@@ -34,8 +35,6 @@ export const fetchRandomMob = () => (dispatch, getState) =>  {
 
         resolve(randomMob);
     })
-    // console.log(damageRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
-    // console.log(attackRoll(mediumChallenge[randomIndex].actions[0])(dispatch))
 }
 
 // cast spell?

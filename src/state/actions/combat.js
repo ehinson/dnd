@@ -10,16 +10,6 @@ const actions = createActions({
             SET: active => active,
         },
 
-        HEALTH: {
-            SET: health => health,
-            HEAL: {
-                SET: heal => heal,
-            },
-            HARM: {
-                SET: harm => harm,
-            },
-        },
-
         INITIATIVE: {
             SET: init => init,
         },
@@ -32,7 +22,16 @@ const actions = createActions({
             SET: mobs => mobs,
             ATTACK: {
                 TOGGLE: index => index,
-            }
+            },
+            HEALTH: {
+                SET: health => health,
+                HEAL: {
+                    SET: (heal, index) => (heal, index),
+                },
+                HARM: {
+                    SET: (harm, index) => ({harm, index}),
+                },
+            },
         },
 
         PLAYER: {
