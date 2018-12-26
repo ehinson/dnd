@@ -36,9 +36,7 @@ export const fight = () => (dispatch, getState) => {
     const player = p.getPlayer(state);
     let activeIndex = c.getActive(state);
     const currentTurn = initiativeOrder.get(activeIndex);
-    console.log(currentTurn.toJS())
 
-    debugger;
     switch (currentTurn.get('type')) {
         case 'mob':
             const currentMobIndex = mobs.findIndex(el => el.get('name') === currentTurn.get('name'));
@@ -81,14 +79,11 @@ const mobAttack = (mob, target) => (dispatch, getState) =>  {
     const damageRoll = mobOperations.damageRoll(actions);
 
     if (target.get('armor_class') <= attackRoll || attackRoll === 'critical hit') {
-        console.log(`${mob.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')}!`, damageRoll[1], damageRoll[0].get('desc'))
         dispatch(combatActions.log.set(`${mob.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')} for ${damageRoll[1]} damage!`))
         dispatch(playerActions.health.harm.set(damageRoll[1]))
     } else if(attackRoll === 'critical miss') {
-        console.log(`${mob.get('name')} critically missed!`, attackRoll, damageRoll[1])
         dispatch(combatActions.log.set(`${mob.get('name')} critically missed!`))
     } else {
-        console.log(`${mob.get('name')} missed!`, attackRoll, damageRoll[1])
         dispatch(combatActions.log.set(`${mob.get('name')} rolled a ${attackRoll} and missed!`))
     }
 }
@@ -98,14 +93,11 @@ const playerAttack = (player, target) => (dispatch, getState) =>  {
     const damageRoll = playerOperations.damageRoll();
 
     if (target.get('armorClass') <= attackRoll || attackRoll === 'critical hit') {
-        console.log(`${player.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')}!`, damageRoll[1], damageRoll[0].get('desc'))
         dispatch(combatActions.log.set(`${player.get('name')} rolled a ${attackRoll} and hit ${target.get('name')} with ${damageRoll[0].get('name')} for ${damageRoll[1]} damage!`))
         dispatch(playerActions.health.harm.set(damageRoll[1]))
     } else if(attackRoll === 'critical miss') {
-        console.log(`${player.get('name')} critically missed!`, attackRoll, damageRoll[1])
         dispatch(combatActions.log.set(`${player.get('name')} critically missed!`))
     } else {
-        console.log(`${player.get('name')} missed!`, attackRoll, damageRoll[1])
         dispatch(combatActions.log.set(`${player.get('name')} rolled a ${attackRoll} and missed!`))
     }
 }
@@ -116,7 +108,7 @@ export const setInitiativeOrder = () => (dispatch, getState) => {
 
     const player = {
         name: p.getName(state) || 'player',
-        initiative: p.getInitiative(state) || 1,
+        initiative: playerOperations.initiativeRoll(p.getPlayerAbilityModifier(state, 'dexterity')) || 1,
         type: 'player'
     }
 

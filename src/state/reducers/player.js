@@ -95,7 +95,6 @@ export default handleActions({
         CHOICES: {
             SET: (state, { payload: choices }) => {
                 const choiceList = state.getIn(['choices', `level_${p.getPlayerLevel(state)}`])
-                console.log(choiceList)
                 if(!choiceList) {
                     return state.setIn(['choices', `level_${p.getPlayerLevel(state)}`], fromJS(choices))
                 }

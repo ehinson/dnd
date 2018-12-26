@@ -88,7 +88,6 @@ export const Classification = (props) => (
         {props.proficiencyChoices.map(choice => (
           <option key={choice.get('name')}  value={choice.get('name')} >{choice.get('name')}</option>
         ))}
-        {console.log(props.proficiencyChoices.toJS().map(el => el.name))}
       </Field>
     </div>
   </div>

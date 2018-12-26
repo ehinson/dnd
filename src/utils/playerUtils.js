@@ -68,7 +68,6 @@ export function roll(sides){
 export function setAbilityModifier(player, mainStats){
     const newStatObject = {};
     const { race, proficiencies, level } = player;
-    console.log(mainStats, mainStats.toJS())
 
     mainStats.mapEntries(([stat,ability]) => {
         const modifier = calculateModifier(mainStats, stat, race.name)
