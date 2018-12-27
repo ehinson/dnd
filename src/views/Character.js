@@ -157,13 +157,14 @@ class Character extends React.Component {
               <FormStep page={this.state.page}>
                 <Content>
                   Character<br/>
-                  <FormSection name="classification">
+                  <FormSection name="equipment">
                     <Equipment
                       player={this.props.player}
                       featureChoices={this.props.featureChoices}
                       hasFeatureChoice={this.props.hasFeatureChoice}
                       proficiencyChoices={this.props.proficiencyChoices}
                       equipmentChoices={this.props.equipmentChoices}
+                      hasEquipmentChoice={this.props.hasEquipmentChoice}
                      />
                   </FormSection>
                   <button type="button" onClick={this.handleBack}>
@@ -188,6 +189,7 @@ const mapStateToProps = (state) => {
     proficiencyChoices: state.player.getIn(['choices', 'level_1', 'proficiencyChoices']),
     equipmentChoices: state.player.getIn(['choices', 'level_1', 'equipmentChoices']),
     hasFeatureChoice: formValueSelector('player')(state, 'classification.features'),
+    hasEquipmentChoice: formValueSelector('player')(state, 'equipment'),
     initialValues: fromJS({
       abilities: {
         strength: state.player.getIn(['mainStats','strength','score']) || 10,

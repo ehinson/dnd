@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Field } from 'redux-form/immutable';
+import { Field, FormSection } from 'redux-form/immutable';
 
 
 export const Abilities = (props) => (
@@ -104,24 +104,36 @@ export const Identification = () => (
   </Fragment>
 )
 
+// field arrays?
 export const Equipment = (props) => (
   <Fragment>
     <div>
       <label>Starting Equipment</label>
-      <div>
       { props.equipmentChoices.map((choice, index) => (
-        <Field name="choice" key={`choice_${index}`} component="select">
-        {choice.map(choiceGroup => (
-          <option value="fighter">{choiceGroup.map(items => items.get('name')).join(", ")}</option>
+        <div key={`choice_${index}`}>
+          <Field name={`choice_${index}`} component="select">
+            <option />
+            {choice.map(choiceGroup => (
+              <option value={choiceGroup.get('title')} key={choiceGroup.get('title')} >{choiceGroup.get('title')}</option>
+            ))}
+          </Field>
 
-        ))}
-        <option />
-        <option value="fighter">Fighter</option>
-        <option value="wizard">Wizard</option>
-      </Field>
+            {choice.map((choiceGroup) => (
+              props.hasEquipmentChoice && props.hasEquipmentChoice.includes(choiceGroup.get('title')) && choiceGroup.get('checkboxes') &&
+                <FormSection name={`${choiceGroup.get('title')}`}>
+                  {choiceGroup.get('items').map(it => (
+                    <label key={it.get('name')}>
+                      {it.get('name')}
+                      <Field name={it.get('name')}  id={it.get('name')} component="input" type="checkbox"/>
+                    </label>
+                  ))}
+              </FormSection>
+            )
+          )}
+        </div>
       )) }
-
       </div>
-    </div>
   </Fragment>
 )
+
+// on choosing weapons, add them to actions with stats?

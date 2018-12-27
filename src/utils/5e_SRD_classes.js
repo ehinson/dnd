@@ -85,6 +85,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Chain Mail Armor",
                 "type": "equipment",
                 "choose": 1
               },
@@ -93,7 +94,7 @@ const data = [
                   {
                     "quantity": 1,
                     "item": {
-                        "name": "Leather",
+                        "name": "Leather Armor",
                         "AC": 11,
                         "Weight": 10,
                         "type": "armor"
@@ -120,6 +121,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Leather Armor, Longbow & 20 Arrows",
                 "type": "equipment",
                 "choose": 3
               }
@@ -134,6 +136,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Shield",
                 "type": "equipment",
                 "choose": 1
               },
@@ -278,6 +281,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Additional Martial Weapon (Choose 1 here and 1 below)",
                 "type": "equipment",
                 "choose": 1
               }
@@ -298,6 +302,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Light Crossbow and bolts",
                 "type": "equipment",
                 "choose": 2
               },
@@ -310,6 +315,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "2 Handaxes",
                 "type": "equipment",
                 "choose": 1
               }
@@ -324,6 +330,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Dungeoneer's Pack",
                 "type": "equipment",
                 "choose": 1
               },
@@ -336,6 +343,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Explorer's Pack",
                 "type": "equipment",
                 "choose": 1
               }
@@ -482,6 +490,7 @@ const data = [
                     }
                   }
                 ],
+                "title": "Martial Weapon (Choose 1)",
                 "type": "equipment",
                 "choose": 1
               }

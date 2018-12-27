@@ -52,11 +52,17 @@ export const fetchEquipmentChoices = () => (dispatch, getState) => {
     const equipmentChoices = [];
     Object.entries(starting_equip).forEach(([key, choice]) => {
         if (key.match(/choice_/gi)){
-            console.log(choice)
             const foo = choice.map(item => {
-                return item.from.map(it => it.item)
+                const choiceGrouping = {}
+                const items = item.from.map(it => it.item)
+                if (item.from.length > 1 && item.choose === 1){
+                    choiceGrouping.checkboxes = true;
+                }
+                choiceGrouping.title = item.title;
+                choiceGrouping.items = items;
+                return choiceGrouping;
+
             })
-            console.log("foo", foo)
             equipmentChoices.push(foo);
         }
     } )
