@@ -77,7 +77,11 @@ const data = [
                   {
                     "quantity": 1,
                     "item": {
-                      "name": "Chain Mail",
+                        "name": "Chain Mail",
+                        "AC": 16,
+                        "Stealth": "Disadvantage",
+                        "Weight": 55,
+                        "type": "armor",
                     }
                   }
                 ],
@@ -89,19 +93,30 @@ const data = [
                   {
                     "quantity": 1,
                     "item": {
-                      "name": "Leather",
+                        "name": "Leather",
+                        "AC": 11,
+                        "Weight": 10,
+                        "type": "armor"
                     }
                   },
                   {
                     "quantity": 1,
                     "item": {
-                      "name": "Longbow",
+                        "name": "Longbow",
+                        "ranged": true,
+                        "attack_bonus": "figure this out for player",
+                        "damage_dice": "1d8",
+                        "properties": "Ammunition, Heavy, Range, Two-Handed",
+                        "damage_bonus": "figure this out for player(proficiency)",
+                        "type": "weapon"
                     }
                   },
                   {
                     "quantity": 20,
                     "item": {
                       "name": "Arrow",
+                      "type": "ammunition",
+                      "weight": .05,
                     }
                   }
                 ],

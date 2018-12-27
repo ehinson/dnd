@@ -42,6 +42,32 @@ export const fetchProficiencyChoices = () => (dispatch, getState) => {
     return proficiencyChoices;
 }
 
+export const fetchEquipmentChoices = () => (dispatch, getState) => {
+    const state = getState();
+    const category = p.getCategory(state);
+
+    const categoryData = categories
+        .filter(el => el.name.toLowerCase() === category.toLowerCase())
+    const starting_equip = categoryData[0].starting_equipment;
+    const equipmentChoices = [];
+    Object.entries(starting_equip).forEach(([key, choice]) => {
+        if (key.match(/choice_/gi)){
+            console.log(choice)
+            const foo = choice.map(item => {
+                return item.from.map(it => it.item)
+            })
+            console.log("foo", foo)
+            equipmentChoices.push(foo);
+        }
+    } )
+    console.log("e choice", equipmentChoices)
+    dispatch(playerActions.choices.set(fromJS({
+        equipmentChoices: equipmentChoices,
+    })));
+
+    return equipmentChoices;
+}
+
 export const generateAbilityScore = (fieldName, sides, numberOfDice) => dispatch => {
     // make this more generic so you can use it for combat
     let rollArray = [];

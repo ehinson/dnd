@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 import * as playerOperations from '../state/operations/player';
 import { SplitLayoutContainer, SplitLayout, FullScreen, Content } from './App';
-import { Abilities, Classification, Identification } from "./Abilities";
+import { Abilities, Classification, Identification, Equipment } from "./Abilities";
 import { bindActionCreators } from 'redux';
 
 // will need to export for tests?
@@ -65,6 +65,7 @@ class Character extends React.Component {
   componentDidMount(){
     this.props.fetchFeatureChoices();
     this.props.fetchProficiencyChoices();
+    this.props.fetchEquipmentChoices();
   }
 
   handleNext = () => {
@@ -145,7 +146,9 @@ class Character extends React.Component {
                     Back
                   </button>
 
-                  <input type="submit" value="Create Player!" disabled={submitting}/>
+                  <button type="button" onClick={this.handleNext}>
+                    Next
+                  </button>
                 </Content>
               </FormStep>
             }
@@ -155,11 +158,12 @@ class Character extends React.Component {
                 <Content>
                   Character<br/>
                   <FormSection name="classification">
-                    <Classification
+                    <Equipment
                       player={this.props.player}
                       featureChoices={this.props.featureChoices}
                       hasFeatureChoice={this.props.hasFeatureChoice}
                       proficiencyChoices={this.props.proficiencyChoices}
+                      equipmentChoices={this.props.equipmentChoices}
                      />
                   </FormSection>
                   <button type="button" onClick={this.handleBack}>
@@ -182,6 +186,7 @@ const mapStateToProps = (state) => {
     player: state.player,
     featureChoices: state.player.getIn(['choices', 'level_1', 'featureChoices']),
     proficiencyChoices: state.player.getIn(['choices', 'level_1', 'proficiencyChoices']),
+    equipmentChoices: state.player.getIn(['choices', 'level_1', 'equipmentChoices']),
     hasFeatureChoice: formValueSelector('player')(state, 'classification.features'),
     initialValues: fromJS({
       abilities: {
@@ -209,6 +214,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   generateAbilityScore: playerOperations.generateAbilityScore,
   fetchFeatureChoices: playerOperations.fetchFeatureChoices,
   fetchProficiencyChoices: playerOperations.fetchProficiencyChoices,
+  fetchEquipmentChoices: playerOperations.fetchEquipmentChoices,
 }, dispatch)
 
 const CharacterForm = connect(

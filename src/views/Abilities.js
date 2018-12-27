@@ -103,3 +103,25 @@ export const Identification = () => (
     </div>
   </Fragment>
 )
+
+export const Equipment = (props) => (
+  <Fragment>
+    <div>
+      <label>Starting Equipment</label>
+      <div>
+      { props.equipmentChoices.map((choice, index) => (
+        <Field name="choice" key={`choice_${index}`} component="select">
+        {choice.map(choiceGroup => (
+          <option value="fighter">{choiceGroup.map(items => items.get('name')).join(", ")}</option>
+
+        ))}
+        <option />
+        <option value="fighter">Fighter</option>
+        <option value="wizard">Wizard</option>
+      </Field>
+      )) }
+
+      </div>
+    </div>
+  </Fragment>
+)
